@@ -5,7 +5,7 @@ import { Environment } from '../../domain/environment';
 export class ChatGptPoet implements Poet {
   name = 'ChatGPT詩人';
 
-  async composeHaiku(env: Environment): Promise<Poem> {
+  async composePoem(env: Environment): Promise<Poem> {
     const prompt = `以下の情報をもとに俳句を作ってください：
 場所: ${env.location}
 気温: ${env.temperature}℃
