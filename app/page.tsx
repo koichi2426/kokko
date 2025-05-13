@@ -7,7 +7,8 @@ import CoccoCharacter from "./features/home/components/CoccoCharacter/CoccoChara
 import PoemBubble from "./features/home/components/PoemBubble/PoemBubble";
 
 export default function Home() {
-  const [poem, setPoem] = useState("読み込み中...");
+  const [poem, setPoem] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPoem = async () => {
@@ -17,6 +18,8 @@ export default function Home() {
         setPoem(data.message);
       } catch (error) {
         setPoem("詩の取得に失敗しました");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -29,8 +32,8 @@ export default function Home() {
       <main className="min-h-screen bg-[#40494F] text-white flex flex-col">
         <div className="flex-grow flex items-start justify-center pt-32">
           <div className="flex flex-row items-center gap-6">
-            <CoccoCharacter />
-            <PoemBubble poem={poem} />
+            <CoccoCharacter isLoading={isLoading} />
+            <PoemBubble poem={isLoading ? "読み込み中..." : poem} />
           </div>
         </div>
       </main>
