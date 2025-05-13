@@ -33,7 +33,7 @@ export default function Home() {
         <div className="flex-grow flex items-start justify-center pt-32">
           <div className="flex flex-row items-center gap-6">
             <CoccoCharacter isLoading={isLoading} />
-            <PoemBubble poem={isLoading ? "読み込み中..." : poem} />
+            <PoemBubble poem={isLoading ? "考え中..." : poem} />
           </div>
         </div>
       </main>
