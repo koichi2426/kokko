@@ -34,7 +34,7 @@ export default function Home() {
           time: new Date().toISOString(),
         };
 
-        const res = await fetch("api/GeneratePoem", {
+        const res = await fetch("/api/GeneratePoem", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
