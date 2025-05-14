@@ -13,7 +13,6 @@ export default function Home() {
   useEffect(() => {
     const fetchPoem = async () => {
       try {
-        // 1. ユーザーの位置情報を取得
         const position = await new Promise<GeolocationPosition>((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
@@ -21,7 +20,6 @@ export default function Home() {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        // 2. OpenWeatherMap API から現在の天気情報を取得
         const weatherRes = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric&lang=ja`
         );
@@ -36,7 +34,6 @@ export default function Home() {
           time: new Date().toISOString(),
         };
 
-        // 3. 詩生成APIへPOST
         const res = await fetch("/backend/infrastructure/api/GeneratePoem", {
           method: "POST",
           headers: {
@@ -46,11 +43,7 @@ export default function Home() {
         });
 
         const data = await res.json();
-        if (data.text) {
-          setPoem(data.text);
-        } else {
-          setPoem("詩の取得に失敗しました");
-        }
+        setPoem(data.text || "詩の取得に失敗しました");
       } catch (error) {
         console.error(error);
         setPoem("詩の取得に失敗しました");
@@ -66,10 +59,10 @@ export default function Home() {
     <>
       <Header />
       <main className="min-h-screen bg-[#40494F] text-white flex flex-col">
-        <div className="flex-grow flex items-start justify-center pt-32">
-          <div className="flex flex-row items-center gap-6">
-            <CoccoCharacter isLoading={isLoading} />
+        <div className="flex-grow flex items-start justify-center pt-16 sm:pt-32">
+          <div className="flex flex-col items-center gap-4 sm:gap-6">
             <PoemBubble poem={isLoading ? "考え中..." : poem} />
+            <CoccoCharacter isLoading={isLoading} />
           </div>
         </div>
       </main>
