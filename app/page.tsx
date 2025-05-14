@@ -13,18 +13,36 @@ export default function Home() {
   useEffect(() => {
     const fetchPoem = async () => {
       try {
+        // 1. ユーザーの位置情報を取得
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        // 2. OpenWeatherMap API から現在の天気情報を取得
+        const weatherRes = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric&lang=ja`
+        );
+
+        const weatherData = await weatherRes.json();
+
+        const environment = {
+          location: weatherData.name,
+          temperature: weatherData.main.temp,
+          humidity: weatherData.main.humidity,
+          weather: weatherData.weather[0].description,
+          time: new Date().toISOString(),
+        };
+
+        // 3. 詩生成APIへPOST
         const res = await fetch("/backend/infrastructure/api/GeneratePoem", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            location: "東京都",
-            temperature: 26.3,
-            humidity: 58,
-            weather: "晴れ",
-            time: new Date().toISOString(),
-          }),
+          body: JSON.stringify(environment),
         });
 
         const data = await res.json();
@@ -34,6 +52,7 @@ export default function Home() {
           setPoem("詩の取得に失敗しました");
         }
       } catch (error) {
+        console.error(error);
         setPoem("詩の取得に失敗しました");
       } finally {
         setIsLoading(false);
