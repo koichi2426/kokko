@@ -8,7 +8,7 @@ export class ChatGptPoet implements Poet {
 
   async composePoem(env: Environment): Promise<Poem> {
     // プロンプトを環境に基づいて生成
-    const prompt = `以下の情報をもとに俳句を1つ作ってください（17音以内、日本語）：
+    const prompt = `以下の情報をもとにとても可愛らしい詩を1つ作ってください（17音以内、日本語）：
 場所: ${env.location}
 気温: ${env.temperature}℃
 湿度: ${env.humidity}%
@@ -24,7 +24,7 @@ export class ChatGptPoet implements Poet {
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4',
         messages: [
           {
             role: 'user',
