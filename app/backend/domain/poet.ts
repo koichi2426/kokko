@@ -3,5 +3,5 @@ import { Poem } from './poem';
 
 export interface Poet {
   name: string;
-  composeHaiku(env: Environment): Promise<Poem>;
+  composePoem(env: Environment): Promise<Poem>;
 }

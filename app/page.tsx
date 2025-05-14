@@ -13,9 +13,26 @@ export default function Home() {
   useEffect(() => {
     const fetchPoem = async () => {
       try {
-        const res = await fetch("/backend/infrastructure/api/GeneratePoem");
+        const res = await fetch("/backend/infrastructure/api/GeneratePoem", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            location: "東京都",
+            temperature: 26.3,
+            humidity: 58,
+            weather: "晴れ",
+            time: new Date().toISOString(),
+          }),
+        });
+
         const data = await res.json();
-        setPoem(data.message);
+        if (data.text) {
+          setPoem(data.text);
+        } else {
+          setPoem("詩の取得に失敗しました");
+        }
       } catch (error) {
         setPoem("詩の取得に失敗しました");
       } finally {

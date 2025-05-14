@@ -39,6 +39,13 @@ export interface GeneratePoemUseCase {
   execute(input: GeneratePoemInput): Promise<GeneratePoemOutput>;
 }
 
+export function NewGeneratePoemInteractor(
+    poet: Poet,
+    presenter: GeneratePoemPresenter
+): GeneratePoemUseCase {
+    return new GeneratePoemInteractor(poet, presenter);
+}
+
 /**
  * ✅ ユースケース本体：GeneratePoemInteractor
  * ユースケースの具象実装。
