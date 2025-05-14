@@ -17,8 +17,9 @@ export default function Home() {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
 
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+        const lat = 35.6812;
+        const lon = 139.7671;
+
 
         const weatherRes = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}&units=metric&lang=ja`
