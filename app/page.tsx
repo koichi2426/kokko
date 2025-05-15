@@ -31,7 +31,7 @@ export default function Home() {
           temperature: weatherData.main.temp,
           humidity: weatherData.main.humidity,
           weather: weatherData.weather[0].description,
-          time: new Date().toISOString(),
+          time: new Date().toLocaleString("sv-SE", { timeZone: "Asia/Tokyo" }).replace(" ", "T") + ":00.000+09:00",
         };
 
         const res = await fetch("/api/GeneratePoem", {
